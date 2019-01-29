@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'theme.dart';
+import 'typelistpage.dart';
+import 'setuppage.dart';
 
 class DowntownPage extends StatefulWidget {
 
@@ -13,11 +14,12 @@ class DowntownPage extends StatefulWidget {
 class NavigationIconView {
 
   Widget _icon;
-  Color _color;
+  Color mColor;
   String _title;
   BottomNavigationBarItem item;
   AnimationController controller;
   Animation<double> _animation;
+  Widget mIncludedWidget;
 
   NavigationIconView({
     Widget icon,
@@ -25,8 +27,9 @@ class NavigationIconView {
     String title,
     Color color,
     TickerProvider vsync,
+    Widget page
   }) : _icon = icon,
-  _color = color,
+        mColor = color,
   _title = title,
   item = BottomNavigationBarItem(
     icon: icon,
@@ -37,7 +40,8 @@ class NavigationIconView {
   controller = AnimationController(
     duration: Duration(milliseconds: 200),
     vsync: vsync,
-  )
+  ),
+        mIncludedWidget = page
   {
     var curve_drive = CurveTween(
       curve: const Interval(0.5, 1.0,curve: Curves.fastOutSlowIn),
@@ -48,7 +52,7 @@ class NavigationIconView {
   FadeTransition transition(BottomNavigationBarType type,BuildContext context){
     Color iconColor;
     if(type == BottomNavigationBarType.shifting){
-      iconColor = _color;
+      iconColor = mColor;
     } else {
       final ThemeData themeData = Theme.of(context);
       iconColor = themeData.brightness == Brightness.light
@@ -68,11 +72,11 @@ class NavigationIconView {
           child: IconTheme(
               data: IconThemeData(
                 color:iconColor,
-                size: 120.0,
+                size: 200.0,
               ),
               child: Semantics(
                 label: 'PlaceHolder',
-                child: _icon,
+                child: mIncludedWidget,
               ),
           ),
       ),
@@ -86,7 +90,7 @@ class _DowntownPageState extends State<DowntownPage>
   with TickerProviderStateMixin {
 
   int _currentIndex = 0;
-  BottomNavigationBarType _type = BottomNavigationBarType.fixed;
+  BottomNavigationBarType _type = BottomNavigationBarType.shifting;
   List<NavigationIconView> _navigationViews;
   @override
   void initState() {
@@ -98,14 +102,16 @@ class _DowntownPageState extends State<DowntownPage>
       title: 'CargoTypes',
       color: Colors.deepOrange,
       vsync: this,
+      page: TypeListPage(title : "first page"),
     );
 
     var navi2 = NavigationIconView(
-      icon: const Icon(Icons.settings),
-      activeIcon: const Icon(Icons.settings),
+      icon: const Icon(Icons.home),
+      activeIcon: const Icon(Icons.home),
       title: 'Setup',
       color: Colors.pink,
       vsync: this,
+      page: UserSetupPage(title : "second page"),
     );
 
     _navigationViews = <NavigationIconView>[
@@ -127,8 +133,14 @@ class _DowntownPageState extends State<DowntownPage>
   Widget _buildTransitionsStack(){
     final List<FadeTransition> transitions = <FadeTransition>[];
 
-    for (NavigationIconView view in _navigationViews)
+
+    for (int i=0;i<_navigationViews.length;i++){
+      NavigationIconView view = _navigationViews[i];
       transitions.add(view.transition(_type, context));
+//      view.transition(type, context)
+    }
+
+
 
     // We want to have the newly animating (fading in) views on top.
     transitions.sort((FadeTransition a, FadeTransition b) {
@@ -161,8 +173,11 @@ class _DowntownPageState extends State<DowntownPage>
       },
     );
 
+    Color bkcolor = _navigationViews[_currentIndex].mColor;
+
     var appbar = AppBar(
-      title: const Text('NewSmartCargoSys'),
+      title: const Text('手机维修铺'),
+      backgroundColor: bkcolor,
     );
 
     var body = Center(

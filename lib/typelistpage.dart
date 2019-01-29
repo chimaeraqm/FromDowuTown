@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'cardview.dart';
 
 class TypeListPage extends StatefulWidget {
   TypeListPage({Key key, this.title}) : super(key: key);
@@ -20,7 +21,13 @@ class TypeListPage extends StatefulWidget {
 
 class _TypeListPageState extends State<TypeListPage> {
 
-  int _counter = 0;
+  bool _dense = true;
+  bool _showDividers = true;
+  bool _showAvatars = true;
+  bool _showIcons = true;
+  List<String> items = <String>[
+    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
+  ];
 
   @override
   void initState() {
@@ -28,6 +35,24 @@ class _TypeListPageState extends State<TypeListPage> {
     super.initState();
   }
 
+  Widget buildListTile(BuildContext context, String item) {
+    Widget secondary = const Text('Additional item information.');
+    var merged_item = MergeSemantics(
+      child: ListTile(
+        isThreeLine: true,
+        dense:_dense,
+        leading: _showAvatars ? ExcludeSemantics(child: CircleAvatar(child: Text(item))) : null,
+        title: Text('This item represents $item.'),
+        subtitle: secondary,
+        trailing: _showIcons ? Icon(
+            Icons.info,
+            color: Theme.of(context).disabledColor,
+            size: 24.0,) : null,
+      ),
+    );
+    return merged_item;
+  }
+  
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -37,46 +62,57 @@ class _TypeListPageState extends State<TypeListPage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
 
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+    const String _kGalleryAssetsPackage = 'phone_types_images_assets';
+
+    final List<SingleType> items = <SingleType>[
+      const SingleType(
+        assetName: 'images/huawei_cx8e.png',
+        assetPackage: _kGalleryAssetsPackage,
+        title: 'HUAWEI CHANGXIANG 8E',
+        description: <String>[
+          'Type1',
+          'Number1',
+          'Take1',
+        ],
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
-        ),
+      const SingleType(
+        assetName: 'images/huawei_cx9.png',
+        assetPackage: _kGalleryAssetsPackage,
+        title: 'This is Type2',
+        description: <String>[
+          'Type2',
+          'Number2',
+          'Take2',
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    ];
+
+    /*Iterable<Widget> listTiles = items.map<Widget>((String item) => buildListTile(context, item));
+    if (_showDividers)
+      listTiles = ListTile.divideTiles(context: context, tiles: listTiles);*/
+
+
+    var scaffold = Scaffold(
+      body: ListView(
+          itemExtent: SingleTypeItem.height,
+          padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
+          children: items.map<Widget>((SingleType singleType) {
+            return Container(
+              margin: const EdgeInsets.only(bottom: 8.0),
+              child: SingleTypeItem(
+                singleType: singleType,
+              ),
+            );
+          }).toList()
+      ),
+/*
+      body: Scrollbar(
+          child: ListView(
+            padding: EdgeInsets.symmetric(vertical: _dense ? 4.0 : 8.0),
+            children: listTiles.toList(),
+          )),
+*/
     );
+    return scaffold;
   }
 }

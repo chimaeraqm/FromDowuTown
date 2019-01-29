@@ -14,8 +14,9 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="from_downtown"
-        android:icon="@mipmap/ic_launcher">
+        android:label="手机维修铺"
+        android:icon="@mipmap/app_icon_rb"
+        android:roundIcon="@mipmap/app_icon_rb_round">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
