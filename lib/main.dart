@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'downtownapp.dart';
+import 'pages/page_main.dart';
 
 void main() => runApp(new MyApp());
 

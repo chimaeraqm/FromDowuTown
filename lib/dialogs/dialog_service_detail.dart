@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dialog_purchase.dart';
+import 'package:from_downtown/dialogs/dialog_purchase.dart';
 
 enum DismissDialogAction {
   cancel,

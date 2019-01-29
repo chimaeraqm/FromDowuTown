@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dialog_service_detail.dart';
+import 'package:from_downtown/dialogs/dialog_service_detail.dart';
 
 class SingleType {
   const SingleType({
@@ -14,7 +14,7 @@ class SingleType {
   final String title;
   final List<String> description;
 
-  bool get isValid => assetName != null && title != null && description?.length == 3;
+  bool get isValid => assetName != null /*&& title != null*/ && description?.length == 3;
 }
 
 class SingleTypeItem extends StatelessWidget
@@ -35,6 +35,11 @@ class SingleTypeItem extends StatelessWidget
 
     var box_stack1 = Stack(
       children: <Widget>[
+
+        Center(
+          child: Image.asset(singleType.assetName),
+        ),
+/*
         Positioned.fill(
             child: Image.asset(singleType.assetName),
         ),
@@ -51,6 +56,7 @@ class SingleTypeItem extends StatelessWidget
             ),
           ),
         ),
+*/
       ],
     );
 
@@ -66,6 +72,12 @@ class SingleTypeItem extends StatelessWidget
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          Text(singleType.description[0],
+            style: descriptionStyle.copyWith(
+              color: Colors.black54,
+            ),
+          ),
+/*
           Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Text(
@@ -75,6 +87,7 @@ class SingleTypeItem extends StatelessWidget
               ),
             ),
           ),
+*/
           Text(singleType.description[1]),
           Text(singleType.description[2])]
       )
@@ -95,7 +108,8 @@ class SingleTypeItem extends StatelessWidget
             'Choose',
             semanticsLabel: 'Choose ${singleType.title}',
           ),
-          textColor: Colors.amber.shade500,
+          textColor: Colors.white,
+          color: Colors.deepOrange,
           onPressed: (){
             Navigator.push(context, MaterialPageRoute<DismissDialogAction>(
               builder: (BuildContext context) => ServiceDetailDialog(),
@@ -115,13 +129,17 @@ class SingleTypeItem extends StatelessWidget
       children: <Widget>[
         colume_box,
         colume_exp,
-        colume_button_bar,
+        Padding(
+          padding: const EdgeInsets.only(left: 16.0),
+          child: colume_button_bar,
+        ),
       ],
     );
 
     var cardview = Card(
       shape: shape,
       child: card_colume,
+      elevation: 8.0,
     );
 
     var container = Container(
