@@ -19,7 +19,7 @@ class SingleType {
 
 class SingleTypeItem extends StatelessWidget
 {
-  static const double height = 366.0;
+  static const double height = 380.0;
   final SingleType singleType;
   final ShapeBorder shape;
 

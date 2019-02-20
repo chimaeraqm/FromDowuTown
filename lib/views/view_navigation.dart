@@ -54,11 +54,12 @@ class NavigationIconView {
       child: SlideTransition(
         position: _animation.drive(
           Tween<Offset>(
-            begin: const Offset(0.0, 0.02),
+            begin: const Offset(0.02, 0.0),
             end: Offset.zero,
           ),
         ),
-        child: IconTheme(
+        child: mIncludedWidget,
+        /*child: IconTheme(
           data: IconThemeData(
             color:iconColor,
             size: 200.0,
@@ -67,7 +68,7 @@ class NavigationIconView {
             label: 'PlaceHolder',
             child: mIncludedWidget,
           ),
-        ),
+        ),*/
       ),
     );
 
