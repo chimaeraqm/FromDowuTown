@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'pages/page_main.dart';
+import 'pages/FishDrawablePage.dart';
 
 void main() => runApp(new MyApp());
 
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       //home: CurvePage(),
-      home: DowntownPage(),
+      home: FishDrawablePage(),
     );
   }
 }
