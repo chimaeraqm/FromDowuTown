@@ -108,7 +108,8 @@ class _DowntownPageState extends State<DowntownPage>
     );
 
     var body = Center(
-      child: _buildTransitionsStack(),
+      child: _navigationViews[_currentIndex].mIncludedWidget,
+//      child: _buildTransitionsStack(),
     );
 
     var scaffold = Scaffold(
